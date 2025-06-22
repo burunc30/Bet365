@@ -1,0 +1,25 @@
+name: Run Bet365 Scraper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Kodu yüklə
+      uses: actions/checkout@v2
+
+    - name: Python quraşdır
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Tələbləri quraşdır
+      run: |
+        pip install -r requirements.txt
+        python -m playwright install
+
+    - name: Scraper-i işə sal
+      run: python main.py
