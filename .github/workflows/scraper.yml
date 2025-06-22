@@ -8,22 +8,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Kod yükla
-      uses: actions/checkout@v2
+      - name: Kod yükla
+        uses: actions/checkout@v2
 
-    - name: Python quraşdır
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Python quraşdır
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Tələbləri quraşdır
-      run: pip install requests
+      - name: Tələbləri quraşdır
+        run: pip install requests
 
-    - name: Scraper-i işə sal
-      run: python main.py
+      - name: Scraper-i işə sal
+        run: python main.py
 
-    - name: Upload HTML file
-      uses: actions/upload-artifact@v3
-      with:
-        name: bet365-html
-        path: page.html
+      - name: Upload HTML file
+        uses: actions/upload-artifact@v4
+        with:
+          name: bet365-html
+          path: page.html
