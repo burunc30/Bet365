@@ -17,7 +17,9 @@ jobs:
           python-version: '3.x'
 
       - name: Tələbləri quraşdır
-        run: pip install requests
+        run: |
+          pip install requests playwright
+          playwright install
 
       - name: Scraper-i işə sal
         run: python main.py
