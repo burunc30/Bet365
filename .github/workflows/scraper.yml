@@ -1,7 +1,9 @@
-name: Bet365 Scraper
+name: Run Scraper
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ "main" ]
 
 jobs:
   run-scraper:
@@ -16,11 +18,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Tələbləri quraşdır
+      - name: PIP yenilə
+        run: python -m pip install --upgrade pip
+
+      - name: Asılılıqları quraşdır
         run: pip install -r requirements.txt
 
-      - name: Playwright-i quraşdır
-        run: playwright install chromium
+      - name: Playwright komponentlərini quraşdır
+        run: playwright install --with-deps
 
       - name: Scraper-i işə sal
         run: python main.py
