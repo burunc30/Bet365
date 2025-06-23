@@ -1,1 +1,2 @@
 playwright
+beautifulsoup4
