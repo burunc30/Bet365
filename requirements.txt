@@ -1,2 +1,1 @@
 playwright
-git+https://github.com/AtuboDad/playwright-stealth.git
