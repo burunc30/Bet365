@@ -1,6 +1,6 @@
 import asyncio
 from playwright.async_api import async_playwright
-import playwright_stealth
+from playwright_stealth import stealth  # düz olan budur
 
 async def main():
     print("Playwright işə salınır...")
@@ -9,8 +9,7 @@ async def main():
         context = await browser.new_context()
         page = await context.new_page()
 
-        # Stealth modulunun içindəki funksiyanı ayrıca çağırırıq
-        await playwright_stealth.stealth_async(page)
+        await stealth(page)  # artıq 'stealth_async' deyil, sadəcə 'stealth'
 
         print("Sayta daxil olunur...")
         await page.goto("https://www.878365.com/", timeout=60000)
@@ -18,7 +17,7 @@ async def main():
 
         html = await page.content()
         print("HTML alınan hissə:")
-        print(html[:1000])  # çox uzun olmasın deyə
+        print(html[:1000])
 
         await browser.close()
 
