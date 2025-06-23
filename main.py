@@ -1,25 +1,22 @@
 import asyncio
 from playwright.async_api import async_playwright
-from playwright_stealth import stealth  # düz olan budur
 
-async def main():
-    print("Playwright işə salınır...")
+async def get_pinnacle_data():
+    url = "https://www.pinnacle.com/en/odds/match/football"
+    print("🔗 Sayta daxil olunur...")
+
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context()
         page = await context.new_page()
+        await page.goto(url, timeout=60000)
 
-        await stealth(page)  # artıq 'stealth_async' deyil, sadəcə 'stealth'
+        await page.wait_for_timeout(5000)  # 5 saniyəlik gözləmə (test məqsədli)
 
-        print("Sayta daxil olunur...")
-        await page.goto("https://www.878365.com/", timeout=60000)
-        await page.wait_for_timeout(3000)
-
-        html = await page.content()
-        print("HTML alınan hissə:")
-        print(html[:1000])
+        content = await page.content()
+        print("✅ HTML alındı:")
+        print(content[:1000])  # Yalnız ilk 1000 simvolu göstərir
 
         await browser.close()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+asyncio.run(get_pinnacle_data())
