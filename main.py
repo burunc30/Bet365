@@ -1,30 +1,28 @@
 import asyncio
 from playwright.async_api import async_playwright
-import playwright_stealth
+from playwright_stealth import stealth_async
+from bs4 import BeautifulSoup
+
+URL = "https://www.pinnacle.com/en/odds/match/football"
 
 async def main():
-    print("🔄 Playwright işə salınır...")
+    print("🔗 Sayta daxil olunur...")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context()
         page = await context.new_page()
 
-        # Stealth tətbiq et
-        await playwright_stealth.stealth_async(page)
+        await stealth_async(page)  # Stealth tətbiq et
+        await page.goto(URL, timeout=60000)
+        html = await page.content()
+        print("✅ HTML alındı.")
 
-        # 📌 Sayta keçid (Pinacle)
-        url = "https://www.pinnacle.com/en/odds/match/football"
-        print("🔗 Sayta daxil olunur...")
-        await page.goto(url)
+        soup = BeautifulSoup(html, "html.parser")
 
-        # Sayta yüklenmesi üçün 5 saniyə gözləyirik
-        await page.wait_for_timeout(5000)
-
-        # HTML content-i əldə et və ilk 3000 simvolu göstər
-        print("✅ Səhifə yükləndi, content alınır...")
-        content = await page.content()
-        print(content[:3000])
+        # Sadə yoxlama üçün başlıq çıxarırıq
+        title = soup.title.string if soup.title else "Başlıq yoxdur"
+        print(f"🌐 Səhifə Başlığı: {title}")
 
         await browser.close()
 
